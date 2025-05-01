@@ -3,17 +3,15 @@ import AppName from "./components/AppName";
 import TodoItems from "./components/TodoItems";
 import "./App.css";
 import { useState, useEffect } from "react";
+import WelcomeMessage from "./components/WelcomeMessage";
 
 function App() {
   const LOCAL_STORAGE_KEY = "todoItems";
-
-  // ✅ Load from localStorage directly in useState
   const [todoItems, setTodoItems] = useState(() => {
     const storedItems = localStorage.getItem(LOCAL_STORAGE_KEY);
     return storedItems ? JSON.parse(storedItems) : [];
   });
 
-  // ✅ Save to localStorage on todoItems change
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todoItems));
   }, [todoItems]);
@@ -35,6 +33,7 @@ function App() {
       <AppName />
       <AddTodo onNewItem={handleNewItem} />
       <br />
+      {todoItems.length === 0 && <WelcomeMessage />}
       <TodoItems todoItems={todoItems} onDeleteData={deleteData} />
     </center>
   );
